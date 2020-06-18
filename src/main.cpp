@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <ctime>
 
 #include <GL/gl.h>
 #include <GL/glut.h>
@@ -15,6 +16,9 @@
 #include "../include/Cube.h"
 //#include "House.h"
 
+time_t lastSpawnTime;
+time_t currentTime;
+
 // Objet Camera
 Camera *cam = new Camera();
 // Objet Scène
@@ -25,7 +29,9 @@ Robot *robotInstance = new Robot();
 Road *roadInstance = new Road();
 Map *mapInstance = new Map();
 
-MiniRobot *miniRobotInstance = new MiniRobot();
+MiniRobot * miniRobots[1000] ;
+
+
 
 //House *houseInstance = new House();
 
@@ -40,6 +46,8 @@ bool up = false;
 bool down = false;
 int pass = 0;
 float langue = 0.2;
+
+unsigned int robotsUps = 0;
 
 /** GESTION FENETRE **/
 void reshapeWindow(int w, int h)
@@ -169,6 +177,29 @@ void mouseButton(int button, int state, int x, int y)
     }
 }
 
+/** GESTION MINIROBOTS **/
+
+void addMiniRobots(void){
+    if(robotsUps + 8 <= 1000){
+        miniRobots[robotsUps] = new MiniRobot(0, -46);
+        robotsUps++;
+        miniRobots[robotsUps] = new MiniRobot(-3, -46);
+        robotsUps++;
+        miniRobots[robotsUps] = new MiniRobot(-6, -46);
+        robotsUps++;
+        miniRobots[robotsUps] = new MiniRobot(-9, -46);
+        robotsUps++;
+        miniRobots[robotsUps] = new MiniRobot(-12, -46);
+        robotsUps++;
+        miniRobots[robotsUps] = new MiniRobot(-15, -46);
+        robotsUps++;
+        miniRobots[robotsUps] = new MiniRobot(-18, -46);
+        robotsUps++;
+        miniRobots[robotsUps] = new MiniRobot(-21, -46);
+        robotsUps++;
+    }
+}
+
 /** GESTION DEPLACEMENT CAMERA **/
 void computePos(int inutile)
 {
@@ -265,13 +296,21 @@ void renderScene(void)
     if(sunAngle >= 360)
         sunAngle = -360;
 
+    time(&currentTime);
+
+    if(lastSpawnTime + 5 < currentTime) {
+        time(&lastSpawnTime);
+        addMiniRobots();
+    }
     //puts("ok");
+    for(unsigned int i = 0; i < robotsUps; i ++ ){
+        miniRobots[i]->display();
+        miniRobots[i]->updatePos(robotInstance->rXpos,robotInstance->rYpos);
+    }
     mapInstance->DrawSun(sunAngle);
     mapInstance->DrawTree();
     mapInstance->DrawPortal1();
-    mapInstance->DrawPortal2();
     robotInstance->display(bullet);
-    miniRobotInstance->display();
     //wallInstance->draw();
     m->DrawGround();
     m->DrawSkybox(cam);
@@ -287,6 +326,8 @@ void LoadTextures()
 
 int main(int argc, char **argv)
 {
+    addMiniRobots();
+    time(&currentTime);
     /** CREATION FENETRE **/
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);

@@ -14,19 +14,19 @@ class Robot
         void display(double bullet);
         void updateLangue();
         void wall();
+        void updateRobotPos();
+        void robotMove();
         char rFoward;
         char rBack;
         char rLeft;
         char rRight;
-        void updateRobotPos();
-        void robotMove();
+        float rXpos;
+        float rYpos;
 
     protected:
 
     private:
     int i;
-    float rXpos;
-    float rYpos;
     float rLeg;
     float lLeg;
     bool upLeg;

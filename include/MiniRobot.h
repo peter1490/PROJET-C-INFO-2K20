@@ -10,17 +10,21 @@
 class MiniRobot
 {
     public:
-        MiniRobot();
+        MiniRobot(float x, float y);
         void display(void);
-        float Xpos;
-        float Ypos;
+        void updatePos(float x, float y);
 
     protected:
 
     private:
+    float Xpos;
+    float Ypos;
+    float upRot;
+    float downRot;
+    float rRot;
+    float lRot;
+    void move(void);
     GLuint textures[6];
-
-    GLUquadricObj *quad = gluNewQuadric();
 };
 
 #endif // ROBOT_H
