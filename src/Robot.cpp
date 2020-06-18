@@ -12,6 +12,7 @@ Robot::Robot(){
     lLeg = 120;
     upLeg = true;
     downLeg = false;
+    rotation = 0;
 }
 
 
@@ -28,6 +29,7 @@ void Robot::display(double bullet)
 glPushMatrix();
 
     glScalef(0.2, 0.2, 0.2);
+   
     glPushMatrix();
     /* Active le z-buffer */
         glEnable(GL_DEPTH_TEST);
@@ -53,11 +55,12 @@ glPushMatrix();
 
         /*  d�finit la taille d'un pixel*/
         glPointSize(2.0);
+        glRotatef(rotation, 0,1,0);
         glTranslatef(rYpos, 13, rXpos);
             glPushMatrix();
                 glTranslatef(0, 2, 0);
                 glRotatef(90,0,0,1);
-                glColor3f(0.2f, 0.2f, 0.2f);
+                glColor3f(1.0f, 0.83f, 0.49f);
                 glScalef(0.7, 0.5, 0.5);
                 glutSolidSphere(2,20,20);
             glPopMatrix();
@@ -364,7 +367,7 @@ glPushMatrix();
 
         glPushMatrix(); // bras
             glTranslatef(2.1, -0.1, 0);
-            glRotatef(rLeg,0,0,1);
+            glRotatef(rLeg,1,0,0);
             glColor3f(0.2f, 0.2f, 0.2f);
             gluCylinder(quad, 0.2, 0.2, 5, 20, 20);
 
@@ -512,12 +515,12 @@ glPopMatrix();
         glPushMatrix();
             glTranslatef(0, 0, 0);
             glRotatef(90 ,1 ,0 ,0);
-            glColor3f(0.2f, 0.2f, 0.2f);
+            glColor3f(1.0f, 0.83f, 0.49f);
             glutSolidCone(2, 8, 20, 30);
         glPopMatrix();
 
         glTranslatef(0, -4, 0);
-            glColor3f(0.2f, 0.2f, 0.2f);
+            glColor3f(0.9f, 0.9f, 0.9f);
             glScalef(5.5, 15, 5.5);
             glutSolidCube(0.5);
         glPopMatrix();
@@ -525,7 +528,7 @@ glPopMatrix();
         glPushMatrix();
             glTranslatef(0, -8, 0);
             glRotatef(270 ,1 ,0 ,0);
-            glColor3f(0.2f, 0.2f, 0.2f);
+            glColor3f(1.0f, 0.83f, 0.49f);
             glutSolidCone(2, 8, 20, 30);
         glPopMatrix();
 
@@ -658,6 +661,16 @@ void Robot::updateRobotPos()
     if (rBack){
         this->rXpos -= 0.01;
         this->robotMove();
+    }
+    if (rotateRight){
+        this->rotation -= 90;
+        this->robotMove();
+        rotateRight = 0;
+    }
+    if (rotateLeft){
+        this->rotation += 90;
+        this->robotMove();
+        rotateLeft = 0;
     }
 }
 

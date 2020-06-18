@@ -20,12 +20,15 @@ class Robot
         char rBack;
         char rLeft;
         char rRight;
+        char rotateRight;
+        char rotateLeft;
         float rXpos;
         float rYpos;
 
     protected:
 
     private:
+    float rotation;
     int i;
     float rLeg;
     float lLeg;

@@ -70,9 +70,6 @@ void KeyboardDown(unsigned char key, int xx, int yy)
 {
     switch(key)
     {
-        case 'e': // Unlock Camera
-            cam->locked = (cam->locked)?0:1;
-            break;
         case 'z':
             robotInstance->rFoward = 1;
             break;
@@ -87,6 +84,12 @@ void KeyboardDown(unsigned char key, int xx, int yy)
             break;
         case 'd':
             robotInstance->rRight = 1;
+            break;
+        case 'a':
+            robotInstance->rotateLeft = 1;
+            break;
+        case 'e':
+            robotInstance->rotateRight = 1;
             break;
         case 'u':
             bullet -= 0.05;
